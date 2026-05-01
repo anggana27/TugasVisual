@@ -1,10 +1,93 @@
+package tampilan;
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyEvent;
+import koneksi.koneksi;
+
 public class kasir extends javax.swing.JFrame {
-    
+private Connection conn = new koneksi().connect();
+private DefaultTableModel tabmode;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(kasir.class.getName());
 
     public kasir() {
         initComponents();
+        kosong();
+        aktif();
+        datatable();
     }
+    protected void aktif(){
+        txtid.requestFocus();
+    }
+    
+    protected void kosong(){
+                  txtId.setText("");
+        txtNama.setText("");
+        txtTelp.setText("");
+        txtAlamat.setText("");
+        txtcari.setText("");
+        txtAgama.setSelectedIndex(0);
+        buttonGroup1.clearSelection();
+    }  
+    }
+protected void datatable() {
+        Object[] Baris = {"ID", "Nama", "JK", "Telp", "Alamat", "Agama"};
+        tabmode = new DefaultTableModel(null, Baris);
+
+        String cari = txtCari.getText();
+
+        try {
+            String sql = "SELECT * FROM kasir WHERE id LIKE '%" + cari + "%' OR nama LIKE '%" + cari + "%'";
+            Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+
+            while (hasil.next()) {
+                tabmode.addRow(new Object[]{
+                    hasil.getString("id"),
+                    hasil.getString("nama"),
+                    hasil.getString("jk"),
+                    hasil.getString("telp"),
+                    hasil.getString("alamat"),
+                    hasil.getString("agama")
+                });
+            }
+            tableKasir.setModel(tabmode);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e);
+        }
+    }
+ private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {
+        String jk = null;
+
+        if (jRadioButton1.isSelected()) {
+            jk = "Laki-Laki";
+        } else if (jRadioButton2.isSelected()) {
+            jk = "Perempuan";
+        }
+
+        String sql = "INSERT INTO kasir VALUES (?,?,?,?,?,?)";
+
+        try {
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, txtId.getText());
+            stat.setString(2, txtNama.getText());
+            stat.setString(3, jk);
+            stat.setString(4, txtTelp.getText());
+            stat.setString(5, txtAlamat.getText());
+            stat.setString(6, comboAgama.getSelectedItem().toString());
+
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+
+            kosong();
+            datatable();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Gagal simpan: " + e);
+        }
+    }
+ 
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
