@@ -15,7 +15,7 @@ private DefaultTableModel tabmode;
    
     public Pelanggan() {
         initComponents();
-                kosong();
+        kosong();
         aktif();
         datatable();
     }
@@ -23,25 +23,25 @@ private DefaultTableModel tabmode;
             txtid.requestFocus();
     }
     
-    protected void kosoong(){
+    protected void kosong(){
                 txtid.setText("");
                 txtnm.setText("");
                 txttelp.setText("");
-                txtcari.setText("");
-                txtcari.setText("");
+                txtalamat.setText("");
+                txtcari.setText("");              
                 
                 
     } 
     
     
 protected void datatable(){
-    object[]Baris ={"ID Pelanggan", "Nama", "Jenis kelamin", "No. Telepon", "Alamat"};
+    Object[]Baris ={"ID Pelanggan", "Nama", "Jenis kelamin", "No. Telepon", "Alamat"};
     tabmode = new DefaultTableModel(null, Baris);
     String cariitem=txtcari.getText();
     
     try{
          String sql = "SELECT * FROM pelanggan WHERE id LIKE '%" + cariitem + "%' "
-                   + "OR nmplgn LIKE '%" + cariitem + "%' ORDER BY id ASC";
+                   + "OR nmplg LIKE '%" + cariitem + "%' ORDER BY id ASC";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next ()){
@@ -54,7 +54,7 @@ protected void datatable(){
                 });
             }
             tblplgn.setModel(tabmode);
-    }catch (EXception e){
+    } catch (Exception e){
             JOptionPane.showMessageDialog(null, "data gagal dipanggil"+e);
     }
 }
@@ -65,6 +65,7 @@ protected void datatable(){
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        btnJK = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -75,17 +76,17 @@ protected void datatable(){
         jLabel6 = new javax.swing.JLabel();
         rlaki = new javax.swing.JRadioButton();
         rperempuan = new javax.swing.JRadioButton();
-        txttelp = new javax.swing.JTextField();
         txtalamat = new javax.swing.JTextField();
         bsimpan = new javax.swing.JButton();
         bubah = new javax.swing.JButton();
         bhapus = new javax.swing.JButton();
         bbatal = new javax.swing.JButton();
         bkeluar = new javax.swing.JButton();
-        txtcari = new javax.swing.JLabel();
         bcari = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblplgn = new javax.swing.JTable();
+        txtcari = new javax.swing.JTextField();
+        txttelp = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -118,13 +119,13 @@ protected void datatable(){
 
         jLabel6.setText("Alamat ");
 
+        btnJK.add(rlaki);
         rlaki.setText("Laki Laki");
         rlaki.addActionListener(this::rlakiActionPerformed);
 
+        btnJK.add(rperempuan);
         rperempuan.setText("Perempuan");
         rperempuan.addActionListener(this::rperempuanActionPerformed);
-
-        txttelp.addActionListener(this::txttelpActionPerformed);
 
         bsimpan.setText("Simpan");
         bsimpan.addActionListener(this::bsimpanActionPerformed);
@@ -140,8 +141,6 @@ protected void datatable(){
         bkeluar.setText("Keluar");
         bkeluar.addActionListener(this::bkeluarActionPerformed);
 
-        txtcari.setText("Data Pelanggan");
-
         bcari.setText("Cari");
         bcari.addActionListener(this::bcariActionPerformed);
 
@@ -156,18 +155,25 @@ protected void datatable(){
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblplgn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblplgnMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblplgn);
+
+        txtcari.setText("jTextField1");
+
+        txttelp.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
+                        .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
@@ -182,21 +188,11 @@ protected void datatable(){
                                             .addComponent(jLabel4)
                                             .addComponent(jLabel6)
                                             .addComponent(bsimpan)
-                                            .addComponent(txtcari)))
+                                            .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel2))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(26, 26, 26)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(rlaki, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(rperempuan))
-                                            .addComponent(txtid)
-                                            .addComponent(txttelp, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                                            .addComponent(txtalamat)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGap(13, 13, 13)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(6, 6, 6)
@@ -208,8 +204,21 @@ protected void datatable(){
                                                 .addGap(18, 18, 18)
                                                 .addComponent(bbatal)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(bkeluar)))))))))
-                .addGap(0, 168, Short.MAX_VALUE))
+                                                .addComponent(bkeluar))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(39, 39, 39)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(rlaki, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(rperempuan))
+                                            .addComponent(txtid, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                                            .addComponent(txtalamat)
+                                            .addComponent(txttelp, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 170, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(160, 160, 160)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,9 +244,9 @@ protected void datatable(){
                     .addComponent(rlaki)
                     .addComponent(rperempuan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txttelp, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txttelp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -251,11 +260,11 @@ protected void datatable(){
                     .addComponent(bkeluar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtcari)
-                    .addComponent(bcari))
+                    .addComponent(bcari)
+                    .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         pack();
@@ -276,10 +285,6 @@ protected void datatable(){
     private void txtnmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnmActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnmActionPerformed
-
-    private void txttelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txttelpActionPerformed
 
     private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bsimpanActionPerformed
     String jenis = null;
@@ -303,52 +308,89 @@ kosong();
 txtid.requestFocus();
 }
 catch (SQLException e){
-        JOptionPane.showMessageDialog("data gagal disimpan"+e);
+    JOptionPane.showMessageDialog(null, "data gagal disimpan " + e);
 }
 datatable();
 // TODO add your handling code here:
     }//GEN-LAST:event_bsimpanActionPerformed
 
     private void bubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bubahActionPerformed
-        // TODO add your handling code here:
+        String jenis = null;
+        if(rlaki.isSelected()){
+            jenis = "Laki-Laki";
+        }else if (rperempuan.isSelected()){
+            jenis = "Perempuan";
+        }
+        try{
+            String sql = "update pelanggan set nmplg=?, jenis=?, telepon=?, alamat=? where id='"+txtid.getText()+"'";
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, txtnm.getText());
+            stat.setString(2, jenis);
+            stat.setString(3, txttelp.getText());
+            stat.setString(4, txtalamat.getText());
+            
+            
+            stat.executeUpdate();
+            JOptionPane.showMessageDialog(null, "data berhasil diubah");
+            kosong();
+            txtid.requestFocus();
+        }
+        catch (SQLException e){
+    JOptionPane.showMessageDialog(null, "data gagal diubah " + e);
+}
+        datatable();
     }//GEN-LAST:event_bubahActionPerformed
 
     private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bhapusActionPerformed
-        // TODO add your handling code here:
+    int ok = JOptionPane.showConfirmDialog(null, "hapus", "konfirmasi dialog", JOptionPane.YES_NO_OPTION);
+            if(ok==0){
+                String sql ="delete from pelanggan where id ='"+txtid.getText()+"'";
+                try{
+                    PreparedStatement stat = conn.prepareStatement(sql);
+                    stat.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "data berhasil dihapus");
+                    kosong();
+                    txtid.requestFocus();
+                }
+                catch (SQLException e){
+                JOptionPane.showMessageDialog(null,"data gagal dihapus " + e);
+                }
+                datatable();
+            }
     }//GEN-LAST:event_bhapusActionPerformed
 
     private void bkeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bkeluarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_bkeluarActionPerformed
 
+ 
     private void bcariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcariActionPerformed
-        // TODO add your handling code here:
+   kosong();
+   datatable();
     }//GEN-LAST:event_bcariActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    private void tblplgnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblplgnMouseClicked
+         int bar = tblplgn.getSelectedRow();
+            String a = tabmode.getValueAt(bar, 0).toString();
+            String b = tabmode.getValueAt(bar, 1).toString();
+            String c = tabmode.getValueAt(bar, 2).toString();
+            String d = tabmode.getValueAt(bar, 3).toString(); 
+            String e = tabmode.getValueAt(bar, 4).toString();
+            
+            txtid.setText(a);
+            txtnm.setText(b);
+            if ("Laki-Laki".equals(c)){
+                rlaki.setSelected(true);
+            }else{
+            rperempuan.setSelected(true);
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+            txtalamat.setText(e);
+}
+        public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new Pelanggan().setVisible(true));
-    }
+    }//GEN-LAST:event_tblplgnMouseClicked
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bbatal;
@@ -356,6 +398,7 @@ datatable();
     private javax.swing.JButton bhapus;
     private javax.swing.JButton bkeluar;
     private javax.swing.JButton bsimpan;
+    private javax.swing.ButtonGroup btnJK;
     private javax.swing.JButton bubah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -370,7 +413,7 @@ datatable();
     private javax.swing.JRadioButton rperempuan;
     private javax.swing.JTable tblplgn;
     private javax.swing.JTextField txtalamat;
-    private javax.swing.JLabel txtcari;
+    private javax.swing.JTextField txtcari;
     private javax.swing.JTextField txtid;
     private javax.swing.JTextField txtnm;
     private javax.swing.JTextField txttelp;
